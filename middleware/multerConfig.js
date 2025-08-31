@@ -5,7 +5,7 @@ const storage = multer.diskStorage({
         cb(null, './storage')    // cb = call back , when someone sends files it will save it in storage  , cb(error,success) when error its null
     },
     filename : function (req,file,cb){
-        cb(null,"Kashchit-" + file.originalname)        
+        cb(null,Date.now() + file.originalname)        
     }
 })
 
