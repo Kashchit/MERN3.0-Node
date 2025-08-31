@@ -21,6 +21,12 @@ app.post("/blog",async (req,res)=>{
     // const image = req.body.image
 
     const {title, subtitle, description, image} = req.body
+
+    if(!title || !subtitle || !description || !image){          //validating the information
+        return res.status(400).json({
+            message : "Please provide all the information"
+        })
+    }
     await Blog.create({
         title : title,
         subtitle : subtitle,
