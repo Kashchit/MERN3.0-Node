@@ -21,24 +21,31 @@ app.post("/blog",upload.single('image'),async (req,res)=>{    //same name should
     // const subtitle = req.body.subtitle
     // const description = req.body.description
     // const image = req.body.image
+    const {title, subtitle, description} = req.body
+    const filename = req.body.filename
 
-    // const {title, subtitle, description, image} = req.body
-
-    // if(!title || !subtitle || !description || !image){          //validating the information
-    //     return res.status(400).json({
-    //         message : "Please provide all the information"
-    //     })
-    // }
-    // await Blog.create({
-    //     title : title,
-    //     subtitle : subtitle,
-    //     description : description,
-    //     image : image
-    // })
-    console.log(req.body)
+    if(!title || !subtitle || !description){          //validating the information
+        return res.status(400).json({
+            message : "Please provide all the information"
+        })
+    }
+    await Blog.create({
+        title : title,
+        subtitle : subtitle,
+        description : description,
+        image : filename
+    })
 
     res.status(200).json({
         message : "Blog API hit successfully"
+    })
+})
+
+app.get("/blog",async (req,res)=>{
+    const blogs = await Blog.find()   //returns array
+    res.status(200).json({
+        message : "blogs fetched successfully",
+        data : blogs
     })
 })
 
