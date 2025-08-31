@@ -22,13 +22,14 @@ app.post("/blog",upload.single('image'),async (req,res)=>{    //same name should
     // const description = req.body.description
     // const image = req.body.image
     const {title, subtitle, description} = req.body
-    const filename = req.body.filename
+    const filename = req.file.filename
 
-    if(!title || !subtitle || !description){          //validating the information
-        return res.status(400).json({
-            message : "Please provide all the information"
-        })
-    }
+    // if(!title || !subtitle || !description){          //validating the information
+    //     return res.status(400).json({
+    //         message : "Please provide all the information"
+    //     })
+    // }
+
     await Blog.create({
         title : title,
         subtitle : subtitle,
@@ -48,6 +49,8 @@ app.get("/blog",async (req,res)=>{
         data : blogs
     })
 })
+
+app.use(express.static('./storage'))        //giving permission to see the files from stroage 
 
 app.listen(process.env.PORT, ()=>{
     console.log("Server is running at PORT 3000")
