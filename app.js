@@ -50,6 +50,30 @@ app.get("/blog",async (req,res)=>{
     })
 })
 
+app.get("/blog/:id",async (req,res)=>{    //get single blog
+    const id = req.params.id
+    const blog = await Blog.findById(id)   //returns object
+    if(!blog){
+        return res.status(404).json({
+            message : "No data found"
+        })
+    }
+    res.status(200).json({
+        message : "Fetched succesfully",
+        data : blog
+    })
+})
+
+app.delete("/blog/:id", async(req,res)=>{
+    const id = req.params.id
+    await Blog.findByIdAndDelete(id)
+    res.status(200).json({
+        message : "Blog deleted successfully"
+    })
+})
+
+
+
 app.use(express.static('./storage'))        //giving permission to see the files from stroage 
 
 app.listen(process.env.PORT, ()=>{
