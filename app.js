@@ -8,6 +8,12 @@ app.use(express.json())
 const {multer, storage} = require('./middleware/multerConfig')
 const upload = multer({storage : storage})
 const fs = require('fs')
+const cors = require('cors')
+
+
+app.use(cors({
+    origin : "http://localhost:5173"
+}))
 
 connectToDatabase()
 
@@ -23,7 +29,13 @@ app.post("/blog",upload.single('image'),async (req,res)=>{    //same name should
     // const description = req.body.description
     // const image = req.body.image
     const {title, subtitle, description} = req.body
-    const filename = req.file.filename
+    let filename;
+    if(req.file){
+        filename = "http://localhost:3000/" + req.file.filename
+    } else{
+        filename = "https://www.propertyfinder.ae/blog/wp-content/uploads/2024/09/All-About-IMG-Worlds-of-Adventure1.jpg"
+    }
+    
 
     // if(!title || !subtitle || !description){          //validating the information
     //     return res.status(400).json({
